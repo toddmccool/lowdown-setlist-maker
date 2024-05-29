@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lowdown Setlist Maker</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-image: url("ldb.jpg");
+        background-size: cover;
+        background-position: right 20% center;
+        background-repeat: no-repeat;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hide {
+        visibility: hidden;
+      }
+
+      input,
+      button {
+        width: 90%;
+        margin: 10px auto;
+        display: block;
+        background-color: black;
+        color: white;
+      }
+
+      #container {
+        display: flex;
+        width: 90%;
+        justify-content: space-between;
+      }
+
+      #bpmMatches,
+      #keyMatches {
+        width: 48%;
+        padding: 10px;
+        border: 1px solid black;
+        overflow-y: auto;
+        height: 400px;
+        background-color: white;
+      }
+
+      #setList {
+        width: 90%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid black;
+        overflow-y: auto;
+        height: 200px;
+        background-color: white;
+      }
+
+      .song {
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid grey;
+        cursor: pointer;
+        background-color: white;
+      }
+
+      .song:hover {
+        background-color: lightgrey;
+      }
+
+      #linkModal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      #linkModalContent {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+
+      #closeModal {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .bold-large {
+        font-weight: bold;
+        font-size: larger;
+      }
+
+      .label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Search songs..."
+      oninput="filterSongs()"
+    />
+    <div id="container">
+      <div>
+        <div class="label">Song List (Nearest BPM Matches)</div>
+        <div id="bpmMatches"></div>
+      </div>
+      <div>
+        <div class="label">Song List (Key Matches)</div>
+        <div id="keyMatches"></div>
+      </div>
+    </div>
+    <div>
+      <div class="label">Setlist</div>
+      <div id="setList"></div>
+    </div>
+    <button onclick="copySetlist()">Copy Setlist</button>
+
+    <div id="linkModal">
+      <div id="linkModalContent">
+        <span id="closeModal" onclick="closeModal()">&times;</span>
+        <iframe id="modalIframe" style="width: 100%; height: 400px"></iframe>
+      </div>
+    </div>
+
+    <script>
+      function copySetlist() {
+        const setListText = setList
+          .map(
+            (song) =>
+              `${song.name} - ${song.bpm ? song.bpm + " bpm" : ""} ${
+                song.key ? "key " + song.key : ""
+              }`
+          )
+          .join("\n");
+        navigator.clipboard
+          .writeText(setListText)
+          .then(() => alert("Setlist copied to clipboard!"))
+          .catch((err) => console.error("Failed to copy text: ", err));
+      }
+
+      let originalSongs = [];
+      let masterSongs = [];
+      let setList = [];
+
+      const songList = [
+        {
+          link: "https://example.com",
+          title: "About Damn Time_U 109 bpm key Ebmi ",
+        },
+        {
+          link: "https://example.com",
+          title: "Ain’t No Mountain High Enough_U 129 bpm key Bmi",
+        },
+        {
+          link: "https://example.com",
+          title: "Ain’t Too Proud To Beg_U 120 bpm key C",
+        },
+        {
+          link: "https://example.com",
+          title: "All About That Bass_U 134 bpm key A",
+        },
+        {
+          link: "https://example.com",
+          title: "All Of Me_S 120 bpm key Fmi",
+        },
+        {
+          link: "https://example.com",
+          title: "American Boy_U 118 bpm key E",
+        },
+        {
+          link: "https://example.com",
+          title: "Any Way You Want It_U 138 bpm key G",
+        },
+        {
+          link: "https://example.com",
+          title: "Applause_U 140 bpm key Gmi",
+        },
+        {
+          link: "https://example.com",
+          title: "Bang Bang_U 149 bpm key B",
+        },
+        {
+          link: "https://example.com",
+          title: "Best Of My Love_U 115 bpm key C",
+        },
+        {
+          link: "https://example.com",
+          title: "Billie Jean_U 117 bpm key F#mi",
+        },
+        {
+          link: "https://example.com",
+          title: "Black Horse & A Cherry Tree_U 105 bpm key Emi",
+        },
+        {
+          link: "https://example.com",
+          title: "Blue Bayou_S 95 bpm key B",
+        },
+        {
+          link: "https://example.com",
+          title: "Blurred Lines_U 120 bpm key G",
+        },
+        {
+          link: "https://example.com",
+          title: "Boogie Oogie_U 124 bpm key Dmi",
+        },
+        {
+          link: "https://example.com",
+          title: "Cake By The Ocean_U 119 bpm key Emi ",
+        },
+        {
+          link: "https://example.com",
+          title: "Cali Gurls_U 125 bpm key F",
+        },
+        {
+          link: "https://example.com",
+          title: "Call Me Maybe_U 120 bpm key G",
+        },
+        {
+          link: "https://example.com",
+          title: "Can’t Hold Us_U 146 bpm key Emi",
+        },
+        {
+          link: "https://example.com",
+          title: "Can’t Stop The Feeling_U 113 bpm key C",
+        },
+        {
+          link: "https://example.com",
+          title: "Celebration_U 122 bpm key Ab",
+        },
+        {
+          link: "https://example.com",
+          title: "Chandelier_U 117 bpm key ",
+        },
+        {
+          link: "https://example.com",
+          title: "Cheap Thrills_U 90 bpm key F#mi",
+        },
+        {
+          link: "https://example.com",
+          title: "Closer_U 95 bpm key Eb",
+        },
+        {
+          link: "https://example.com",
+          title: "Club Can’t Handle Me_U 128 bpm key C",
+        },
+        {
+          link: "https://example.com",
+          title: "Come On Eileen_U 116 bpm key C",
+        },
+        {
+          link: "https://example.com",
+          title: "Crazy_U 112 bpm key Cmi",
+        },
+        {
+          link: "https://example.com",
+          title: "Crazy In Love_U 99 bpm key Bb",
+        },
+        {
+          link: "https://example.com",
+          title: "Crazy Love_S 77 bpm key A",
+        },
+        {
+          link: "https://example.com",
+          title: "Crocodile Rock_U 150 bpm key G",
+        },
+        {
+          link: "https://example.com",
+          title: "Dancing Queen_U 101 bpm key A",
+        },
+        {
+          link: "https://example.com",
+          title: "Disturbia_U 125 bpm key ",
+        },
+        {
+          link: "https://example.com",
+          title: "Dock Of The Bay_S 104 bpm key G",
+        },
+        {
+          link: "https://example.com",
+          title: "Domino_U 127 bpm key F#",
+        },
+        {
+          link: "https://example.com",
+          title: "Don’t Stop Me Now_U 156 bpm key F",
+        },
+        {
+          link: "https://example.com",
+          title: "Don’t Stop Till You Get Enough_U 119 bpm key Bmi",
+        },
+        {
+          link: "https://example.com",
+          title: "Don’t Stop The Music_U 123 bpm key D",
+        },
+        {
+          link: "https://example.com",
+          title: "Everybody Talks_U 155 bpm key Eb",
+        },
+        {
+          link: "https://example.com",
+          title: "Every Little Thing She Does Is Magic_U 82 bpm key D",
+        },
+        {
+          link: "https://example.com",
+          title: "Footloose_U 174 bpm key A",
+        },
+        {
+          link: "https://example.com",
+          title: "Forget You_U 127 bpm key C",
+        },
+        {
+          link: "https://example.com",
+          title: "Get Lucky_U 116 bpm key A",
+        },
+        {
+          link: "https://example.com",
+          title: "Good Feeling_U 128 bpm key E",
+        },
+        {
+          link: "https://example.com",
+          title: "Happy_U 160 bpm key F",
+        },
+        {
+          link: "https://example.com",
+          title: "Hit Me With Your Best Shot_U 127 bpm key E",
+        },
+        {
+          link: "https://example.com",
+          title: "Hold On We’re Goin’ Home_S 100 bpm key Bmi",
+        },
+        {
+          link: "https://example.com",
+          title: "Hot And Cold_U 132 bpm key ",
+        },
+        {
+          link: "https://example.com",
+          title: "How Sweet It Is_U 109 bpm key C",
+        },
+        {
+          link: "https://example.com",
+          title: "I Believe In A Thing Called Love_U 128 bpm key E",
+        },
+        {
+          link: "https://example.com",
+          title: "I Gotta Feeling_U 128 bpm key G",
+        },
+        {
+          link: "https://example.com",
+          title: "I Knew You Were Trouble_U 154 bpm key G",
+        },
+        {
+          link: "https://example.com",
+          title: "I Love It_U 126 bpm key Ab",
+        },
+        {
+          link: "https://example.com",
+          title: "I Wanna Dance With Somebody_U 119 bpm key F",
+        },
+        {
+          link: "https://example.com",
+          title: "I Want You Back_U 98 bpm key Ab",
+        },
+        {
+          link: "https://example.com",
+          title: "I’ve Had The Time Of My Life_U 109 bpm key E",
+        },
+        {
+          link: "https://example.com",
+          title: "Jealous_U 93 bpm key D",
+        },
+        {
+          link: "https://example.com",
+          title: "Jessie’s Girl_U 132 bpm key D",
+        },
+        {
+          link: "https://example.com",
+          title: "Kiss_U 111 bpm key A",
+        },
+        {
+          link: "https://example.com",
+          title: "Lady Marmalade_U 118 bpm key Gmi",
+        },
+        {
+          link: "https://example.com",
+          title: "Locked Out Of Heaven_U 144 bpm key Dmi",
+        },
+        {
+          link: "https://example.com",
+          title: "Love Fool_U 112 bpm key C",
+        },
+        {
+          link: "https://example.com",
+          title: "Moves Like Jagger_U 128 bpm key Bmi",
+        },
+        {
+          link: "https://example.com",
+          title: "Mr. Brightside_U 148 bpm key Db",
+        },
+        {
+          link: "https://example.com",
+          title: "My House_U 94 bpm key Bb",
+        },
+        {
+          link: "https://example.com",
+          title: "No Tears Left To Cry_U 122 bpm key ",
+        },
+        {
+          link: "https://example.com",
+          title: "Oh What A Night_U 104 bpm key C#",
+        },
+        {
+          link: "https://example.com",
+          title: "One Way Or Another_U 162 bpm key D",
+        },
+        {
+          link: "https://example.com",
+          title: "Only Girl In The World_U 126 bpm key G",
+        },
+        {
+          link: "https://example.com",
+          title: "Peace Of Mind_U 128 bpm key C#mi",
+        },
+        {
+          link: "https://example.com",
+          title: "PYT_U 127 bpm key Bmi",
+        },
+        {
+          link: "https://example.com",
+          title: "RESPECT_U 115 bpm key Bb",
+        },
+        {
+          link: "https://example.com",
+          title: "Roar_U 90 bpm key Bb",
+        },
+        {
+          link: "https://example.com",
+          title: "Rock With You_U 114 bpm key Ebmi",
+        },
+        {
+          link: "https://example.com",
+          title: "Rock Your Body_U 101 bpm key ",
+        },
+        {
+          link: "https://example.com",
+          title: "Saturday Night’s Alright For Fighting_U 153 bpm key A",
+        },
+        {
+          link: "https://example.com",
+          title: "September_U 126 bpm key A",
+        },
+        {
+          link: "https://example.com",
+          title: "Shake It Off_U 160 bpm key G",
+        },
+        {
+          link: "https://example.com",
+          title: "Shout_U 139 bpm key F",
+        },
+        {
+          link: "https://example.com",
+          title: "Shut Up And Dance_U 128 bpm key Db",
+        },
+
+        {
+          link: "https://example.com",
+          title: "Somebody Told Me_U 138 bpm key Bbmi",
+        },
+        {
+          link: "https://example.com",
+          title: "Somebody To Love_U 112 bpm key Ab",
+        },
+        {
+          link: "https://example.com",
+          title: "Stronger_U 116 bpm key Ami",
+        },
+        {
+          link: "https://example.com",
+          title: "Sweet Caroline_U 127 bpm key B",
+        },
+        {
+          link: "https://example.com",
+          title: "Sugar_U 120 bpm key F#",
+        },
+        {
+          link: "https://example.com",
+          title: "Summer of 69_U 139 bpm key D",
+        },
+        {
+          link: "https://example.com",
+          title: "Sunday Morning maroon 5_S 88 bpm key C",
+        },
+        {
+          link: "https://example.com",
+          title: "Sunday Morning no doubt_U 157 bpm key E",
+        },
+        {
+          link: "https://example.com",
+          title: "Take a Chance On Me_U 107 bpm key B",
+        },
+        {
+          link: "https://example.com",
+          title: "Talk Dirty To Me_U 100 bpm key ",
+        },
+        {
+          link: "https://example.com",
+          title: "That’s Not My Name_U 145 bpm key Emi",
+        },
+        {
+          link: "https://example.com",
+          title: "The Pretender_U 173 bpm key Ami",
+        },
+        {
+          link: "https://example.com",
+          title: "Time Of Our Lives_U 124 bpm key ",
+        },
+        {
+          link: "https://example.com",
+          title: "Treasure_U 116 bpm key Eb",
+        },
+        {
+          link: "https://example.com",
+          title: "Uptown Funk_U 115 bpm key C",
+        },
+        {
+          link: "https://example.com",
+          title: "Use Somebody_U 137 bpm key C",
+        },
+        {
+          link: "https://example.com",
+          title: "Valerie_U 106 bpm key Eb",
+        },
+        {
+          link: "https://example.com",
+          title: "Walk Away_U 116 bpm key ",
+        },
+        {
+          link: "https://example.com",
+          title: "Waterloo_U 148 bpm key ",
+        },
+        {
+          link: "https://example.com",
+          title: "We Found Love_U 128 bpm key ",
+        },
+        {
+          link: "https://example.com",
+          title: "Wild Ones_U 127 bpm key ",
+        },
+        {
+          link: "https://example.com",
+          title: "You Belong With Me_U 130 bpm key D",
+        },
+        {
+          link: "https://example.com",
+          title: "You’re Still The One_U 134 bpm key ",
+        },
+        {
+          link: "https://example.com",
+          title: "Your Love Is My Drug_U 120 bpm key ",
+        },
+      ];
+
+      function parseSongs() {
+        originalSongs = songList.map((song, index) => {
+          const bpmMatch = song.title.match(/(\d+) bpm/);
+          const bpm = bpmMatch ? parseInt(bpmMatch[1]) : null;
+          const keyMatch = song.title.match(/key (.+)/);
+          const key = keyMatch ? keyMatch[1].trim() : null;
+          const type = song.title.includes("_U")
+            ? "_U"
+            : song.title.includes("_S")
+            ? "_S"
+            : null;
+          return {
+            id: index,
+            link: song.link,
+            name: song.title.replace(/(\d+ bpm|key .+)/g, "").trim(),
+            bpm,
+            key,
+            type,
+          };
+        });
+        masterSongs = [...originalSongs];
+        displaySongs("bpmMatches", masterSongs);
+        displaySongs("keyMatches", masterSongs);
+      }
+
+      function updateSuggestions() {
+        if (!setList.length) return;
+        const lastSelectedSong = setList[setList.length - 1];
+
+        // Box 1: BPM Matches
+        const tempoMatches = masterSongs.filter(
+          (song) => song.bpm && song.type === lastSelectedSong.type
+        );
+        tempoMatches.sort(
+          (a, b) =>
+            Math.abs(a.bpm - lastSelectedSong.bpm) -
+            Math.abs(b.bpm - lastSelectedSong.bpm)
+        );
+
+        // Box 2: Key Matches
+        const keyMatches = masterSongs.filter(
+          (song) =>
+            song.key &&
+            song.key === lastSelectedSong.key &&
+            song.type === lastSelectedSong.type
+        );
+        keyMatches.sort(
+          (a, b) =>
+            Math.abs(a.bpm - lastSelectedSong.bpm) -
+            Math.abs(b.bpm - lastSelectedSong.bpm)
+        );
+
+        displaySongs("bpmMatches", tempoMatches, lastSelectedSong);
+        displaySongs("keyMatches", keyMatches, lastSelectedSong);
+      }
+
+      function displaySongs(containerId, songs, lastSelectedSong = null) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+        songs.forEach((song) => {
+          const songDiv = document.createElement("div");
+          songDiv.className = "song";
+          songDiv.style.padding = "10px";
+
+          if (
+            lastSelectedSong &&
+            song.bpm === lastSelectedSong.bpm &&
+            song.key === lastSelectedSong.key
+          ) {
+            songDiv.classList.add("bold-large");
+          }
+
+          const songNameSpan = document.createElement("span");
+          songNameSpan.innerHTML =
+            song.name.replace(/(_U|_S)/g, '<span class="hide">$1</span>') +
+            ` - ${song.bpm ? song.bpm + " bpm" : ""} ${
+              song.key ? "key " + song.key : ""
+            }`;
+          songDiv.appendChild(songNameSpan);
+
+          if (song.link) {
+            const link = document.createElement("a");
+            link.href = "#";
+            link.style.marginLeft = "10px";
+            link.textContent = "(Link)";
+            link.onclick = (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              openModal(song.link);
+            };
+            songDiv.appendChild(link);
+          }
+
+          songDiv.addEventListener("click", () => {
+            if (containerId === "bpmMatches" || containerId === "keyMatches") {
+              selectSong(song);
+            } else if (containerId === "setList") {
+              deselectSong(song);
+            }
+          });
+
+          container.appendChild(songDiv);
+        });
+      }
+
+      function openModal(url) {
+        const modal = document.getElementById("linkModal");
+        const iframe = document.getElementById("modalIframe");
+        iframe.src = url;
+        modal.style.display = "block";
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("linkModal");
+        modal.style.display = "none";
+        const iframe = document.getElementById("modalIframe");
+        iframe.src = "";
+      }
+
+      function selectSong(song) {
+        setList.push(song);
+        masterSongs = masterSongs.filter((s) => s.id !== song.id);
+        displaySongs("setList", setList);
+        updateSuggestions();
+      }
+
+      function deselectSong(song) {
+        setList = setList.filter((s) => s.id !== song.id);
+        masterSongs.push(song);
+        updateSuggestions();
+        displaySongs("setList", setList);
+      }
+
+      function filterSongs() {
+        const searchText = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const filteredSongs = originalSongs.filter((song) =>
+          song.name.toLowerCase().includes(searchText)
+        );
+        displaySongs("bpmMatches", filteredSongs);
+        displaySongs("keyMatches", filteredSongs);
+      }
+
+      window.onload = parseSongs;
+    </script>
+  </body>
+</html>
