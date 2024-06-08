@@ -11,9 +11,9 @@
         margin: 0;
         padding: 0;
         background-image: url("ldb.jpg");
-        background-size: cover;
-        background-position: right 20% center;
-        background-repeat: no-repeat;
+        background-size: 20%; /* Adjust the percentage to make the image smaller */
+        background-position: center; /* Centers the repeating pattern */
+        background-repeat: repeat; /* This will repeat the image */
       }
 
       body {
@@ -120,10 +120,22 @@
       type="text"
       placeholder="Search songs..."
       oninput="filterSongs()"
+      style="height: 40px"
+      <!--
+      Adjust
+      this
+      value
+      as
+      needed
+      --
     />
+    />
+
     <div id="container">
       <div>
-        <div class="label">Song List (Nearest BPM Matches)</div>
+        <div class="label">
+          non stop DANCE MODE!!! Song List (Nearest BPM Matches)
+        </div>
         <div id="bpmMatches"></div>
       </div>
       <div>
@@ -178,11 +190,11 @@
           title: "Ain’t Too Proud To Beg_U 120 bpm key C",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/oneTwoSix.html#topOfOneTwoFiveOneList",
           title: "All About That Bass_U 134 bpm key A",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/sixFourOneFive.html#topOfsixFourOneFiveList",
           title: "All Of Me_S 120 bpm key Fmi",
         },
         {
@@ -190,15 +202,15 @@
           title: "American Boy_U 118 bpm key E",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/oneFiveSixFour.html#topOfOneFiveSixFourList",
           title: "Any Way You Want It_U 138 bpm key G",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/sixFiveFour.html#topOfsixFiveFourList",
           title: "Applause_U 140 bpm key Gmi",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/sixFiveFour.html#topOfsixFiveFourList",
           title: "Bang Bang_U 149 bpm key B",
         },
         {
@@ -206,11 +218,11 @@
           title: "Best Of My Love_U 115 bpm key C",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/sixTwoFiveOne.html#topOfsixTwoFiveOneList",
           title: "Billie Jean_U 117 bpm key F#mi",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/sixFiveFour.html#topOfsixFiveFourList",
           title: "Black Horse & A Cherry Tree_U 105 bpm key Emi",
         },
         {
@@ -218,7 +230,7 @@
           title: "Blue Bayou_S 95 bpm key B",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/oneFive.html#oneFiveList",
           title: "Blurred Lines_U 120 bpm key G",
         },
         {
@@ -226,9 +238,15 @@
           title: "Boogie Oogie_U 124 bpm key Dmi",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/sixFiveFour.html#topOfsixFiveFourList",
           title: "Cake By The Ocean_U 119 bpm key Emi ",
         },
+
+        {
+          link: "https://example.com",
+          title: "California Love_U 92 bpm key Gmi",
+        },
+
         {
           link: "https://example.com",
           title: "Cali Gurls_U 125 bpm key F",
@@ -237,14 +255,27 @@
           link: "https://example.com",
           title: "Call Me Maybe_U 120 bpm key G",
         },
+
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/fiveFourOneFive.html#topOffiveFourOneFiveList",
+          title: "i Can’t Feel My Face_U 108 bpm key Ami",
+        },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/sixFiveFour.html#topOfsixFiveFourList",
           title: "Can’t Hold Us_U 146 bpm key Emi",
         },
         {
           link: "https://example.com",
           title: "Can’t Stop The Feeling_U 113 bpm key C",
         },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/oneSixFourFive.html#topOfoneSixFourFiveList",
+          title:
+            "Can't Take My Eyes off of you_S 124 bpm key E modulates to key G",
+        },
+
         {
           link: "https://example.com",
           title: "Celebration_U 122 bpm key Ab",
@@ -254,7 +285,7 @@
           title: "Chandelier_U 117 bpm key ",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/sixFourOneFive.html#topOfsixFourOneFiveList",
           title: "Cheap Thrills_U 90 bpm key F#mi",
         },
         {
@@ -282,7 +313,7 @@
           title: "Crazy Love_S 77 bpm key A",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/oneSixFourFive.html#topOfoneSixFourFiveList",
           title: "Crocodile Rock_U 150 bpm key G",
         },
         {
@@ -298,7 +329,7 @@
           title: "Dock Of The Bay_S 104 bpm key G",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/fourTwoSixFive.html#topOffourTwoSixFiveList",
           title: "Domino_U 127 bpm key F#",
         },
         {
@@ -314,13 +345,24 @@
           title: "Don’t Stop The Music_U 123 bpm key D",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/oneFourFive.html#topOfOneFourFiveList",
           title: "Everybody Talks_U 155 bpm key Eb",
         },
         {
           link: "https://example.com",
           title: "Every Little Thing She Does Is Magic_U 82 bpm key D",
         },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/fiveFour.html#fiveFourList",
+          title: "Fireball_U 123 bpm key F mixo or diatonic key Bb",
+        },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/oneSixFourFive.html#topOfoneSixFourFiveList",
+          title: "Fly me to the moon_S 118 bpm key Eb modulates to key E",
+        },
+
         {
           link: "https://example.com",
           title: "Footloose_U 174 bpm key A",
@@ -330,11 +372,17 @@
           title: "Forget You_U 127 bpm key C",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/twoFourOneFive.html#twoFourSixFiveList",
           title: "Get Lucky_U 116 bpm key A",
         },
+
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/oneFiveSixFour.html#topOfOneFiveSixFourList",
+          title: "Good as Hell_U 96 bpm key Ab",
+        },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/sixOneFiveFour.html#topOfsixOneFiveFourList",
           title: "Good Feeling_U 128 bpm key E",
         },
         {
@@ -342,12 +390,12 @@
           title: "Happy_U 160 bpm key F",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/oneFourSixFive.html#topOfoneFourSixFiveList",
           title: "Hit Me With Your Best Shot_U 127 bpm key E",
         },
         {
           link: "https://example.com",
-          title: "Hold On We’re Goin’ Home_S 100 bpm key Bmi",
+          title: "Hold On We’re Goin’ Home_S 100 bpm key F#mi",
         },
         {
           link: "https://example.com",
@@ -361,8 +409,14 @@
           link: "https://example.com",
           title: "I Believe In A Thing Called Love_U 128 bpm key E",
         },
+
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/oneSixFourFive.html#topOfoneSixFourFiveList",
+          title: "If I ain't got you_S 96 bpm key G",
+        },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/oneFiveSixFour.html#topOfOneFiveSixFourList",
           title: "I Gotta Feeling_U 128 bpm key G",
         },
         {
@@ -374,7 +428,7 @@
           title: "I Love It_U 126 bpm key Ab",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/oneSixFourFive.html#topOfoneSixFourFiveList",
           title: "I Wanna Dance With Somebody_U 119 bpm key F",
         },
         {
@@ -401,6 +455,17 @@
           link: "https://example.com",
           title: "Lady Marmalade_U 118 bpm key Gmi",
         },
+
+        {
+          link: "https://example.com",
+          title: "Let's go Crazy_U 196 bpm key F#",
+        },
+
+        {
+          link: "https://example.com",
+          title: "Livin on a prayer_U 123 bpm key G",
+        },
+
         {
           link: "https://example.com",
           title: "Locked Out Of Heaven_U 144 bpm key Dmi",
@@ -409,6 +474,16 @@
           link: "https://example.com",
           title: "Love Fool_U 112 bpm key C",
         },
+
+        {
+          link: "https://example.com",
+          title: "Lover_S 103 bpm key G",
+        },
+        {
+          link: "https://toddmccool.github.io/chordprog124/oneTwoSix.html#topOfOneTwoList",
+          title: "Marry You_U 144 bpm key F",
+        },
+
         {
           link: "https://example.com",
           title: "Moves Like Jagger_U 128 bpm key Bmi",
@@ -441,10 +516,22 @@
           link: "https://example.com",
           title: "Peace Of Mind_U 128 bpm key C#mi",
         },
+
+        {
+          link: "https://example.com",
+          title: "Play that Funky Music_U 109 bpm key Emi",
+        },
+
         {
           link: "https://example.com",
           title: "PYT_U 127 bpm key Bmi",
         },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/oneFive.html#oneFiveList",
+          title: "Raise your Glass_U 122 bpm key G",
+        },
+
         {
           link: "https://example.com",
           title: "RESPECT_U 115 bpm key Bb",
@@ -461,9 +548,19 @@
           link: "https://example.com",
           title: "Rock Your Body_U 101 bpm key ",
         },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/fiveOneFourOne.html#topOffiveOneFourOne",
+          title: "Satisfaction_U 130 bpm key E ",
+        },
         {
           link: "https://example.com",
           title: "Saturday Night’s Alright For Fighting_U 153 bpm key A",
+        },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/sixFiveFour.html#topOfsixFiveFourList",
+          title: "Separate Ways_U 132 bpm key Emi",
         },
         {
           link: "https://example.com",
@@ -473,6 +570,12 @@
           link: "https://example.com",
           title: "Shake It Off_U 160 bpm key G",
         },
+
+        {
+          link: "https://example.com",
+          title: "Shallow_S 96 bpm key G",
+        },
+
         {
           link: "https://example.com",
           title: "Shout_U 139 bpm key F",
@@ -484,26 +587,34 @@
 
         {
           link: "https://example.com",
+          title: "Signed Sealed Delivered_U 110 bpm key F",
+        },
+
+        {
+          link: "https://example.com",
           title: "Somebody Told Me_U 138 bpm key Bbmi",
         },
         {
           link: "https://example.com",
           title: "Somebody To Love_U 112 bpm key Ab",
         },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/oneSixFourFive.html#topOfoneSixFourFiveList",
+          title: "Stand by me_S 96 bpm key A",
+        },
+
         {
           link: "https://example.com",
           title: "Stronger_U 116 bpm key Ami",
         },
+
         {
-          link: "https://example.com",
-          title: "Sweet Caroline_U 127 bpm key B",
-        },
-        {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/oneThreeSix.html#oneThreSixFiveList",
           title: "Sugar_U 120 bpm key F#",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/oneFive.html#oneFiveList",
           title: "Summer of 69_U 139 bpm key D",
         },
         {
@@ -514,6 +625,15 @@
           link: "https://example.com",
           title: "Sunday Morning no doubt_U 157 bpm key E",
         },
+
+        {
+          link: "https://example.com",
+          title: "Superstition_U 100 bpm key Ebmi",
+        },
+        {
+          link: "https://example.com",
+          title: "Sweet Caroline_U 127 bpm key B",
+        },
         {
           link: "https://example.com",
           title: "Take a Chance On Me_U 107 bpm key B",
@@ -522,6 +642,12 @@
           link: "https://example.com",
           title: "Talk Dirty To Me_U 100 bpm key ",
         },
+
+        {
+          link: "https://example.com",
+          title: "Teenage Dream_U 120 bpm key Bb",
+        },
+
         {
           link: "https://example.com",
           title: "That’s Not My Name_U 145 bpm key Emi",
@@ -538,8 +664,19 @@
           link: "https://example.com",
           title: "Treasure_U 116 bpm key Eb",
         },
+
         {
-          link: "https://example.com",
+          link: " https://toddmccool.github.io/chordprog124/oneFourFive.html#topOfOneFourFiveList",
+          title: "Twist and Shout_U 128 bpm key Eb",
+        },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/oneSixFourFive.html#topOfoneSixFourFiveList",
+          title: "Unchained Melody_S 99 bpm key C",
+        },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/twoFive.html#twoFiveList",
           title: "Uptown Funk_U 115 bpm key C",
         },
         {
@@ -547,7 +684,7 @@
           title: "Use Somebody_U 137 bpm key C",
         },
         {
-          link: "https://example.com",
+          link: "https://toddmccool.github.io/chordprog124/oneTwoSix.html#topOfOneTwoList",
           title: "Valerie_U 106 bpm key Eb",
         },
         {
@@ -562,13 +699,19 @@
           link: "https://example.com",
           title: "We Found Love_U 128 bpm key ",
         },
+
+        {
+          link: "https://toddmccool.github.io/chordprog124/fiveOneFourOne.html#topOffiveOneFourOne",
+          title: "What I like about you_U 160 bpm key E ",
+        },
+
         {
           link: "https://example.com",
           title: "Wild Ones_U 127 bpm key ",
         },
         {
           link: "https://example.com",
-          title: "You Belong With Me_U 130 bpm key D",
+          title: "You Belong With Me_U 130 bpm key F#",
         },
         {
           link: "https://example.com",
